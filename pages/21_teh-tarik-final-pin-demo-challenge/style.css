@@ -127,6 +127,7 @@ body::-webkit-scrollbar-track {
   width: 225dvw;
   display: flex;
   height: 100dvh;
+  will-change: transform;
   position: relative;
 }
 
@@ -198,10 +199,12 @@ h3 {
 .man {
   position: absolute;
   bottom: 0;
-  left: 25%;
+  left: 35%;
+  transform: translateX(-50%);
   height: 100%;
   width: 20%;
   object-fit: cover;
+  will-change: transform;
 }
 
 .right-box {

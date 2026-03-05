@@ -9,20 +9,22 @@ ScrollSmoother.create({
   effects: true,
 });
 
-gsap.to("#textpath", {
-  attr: { startOffset: "-200%" },
-  ease: "power1.in",
-  duration: 2,
+const heroTL = gsap.timeline({
   scrollTrigger: {
     trigger: ".hero-container",
     start: "top top",
     end: "+=300%",
+    scrub: true,
     pin: true,
-    scrub: 1,
   },
 });
 
-const timeline = gsap.timeline({
+heroTL.to("#textpath", {
+  attr: { startOffset: "-200%" },
+  ease: "none",
+});
+
+const horizontalTL = gsap.timeline({
   scrollTrigger: {
     trigger: ".scroll-container",
     start: "top top",
@@ -32,19 +34,19 @@ const timeline = gsap.timeline({
   },
 });
 
-timeline
-  .to(".scroll-container", {
-    x: "-125vw",
-  })
-  .to(
-    ".man",
-    {
-      left: "50%",
-    },
-    "<",
-  );
+horizontalTL.to(".scroll-container", {
+  xPercent: -55,
+});
 
-const timeline2 = gsap.timeline({
+horizontalTL.to(
+  ".man",
+  {
+    xPercent: 50,
+  },
+  0,
+);
+
+const starInteractionTL = gsap.timeline({
   scrollTrigger: {
     trigger: ".proud-container .img-box",
     start: "top 50%",
@@ -53,14 +55,14 @@ const timeline2 = gsap.timeline({
   },
 });
 
-timeline2
+starInteractionTL
   .to(".left-hand", {
-    x: "10vw",
+    xPercent: 20,
   })
   .to(
     ".right-hand",
     {
-      x: "-10vw",
+      xPercent: -20,
     },
     "<",
   )
@@ -76,7 +78,7 @@ timeline2
     "<",
   );
 
-const timeline3 = gsap.timeline({
+const colorTransitionTL = gsap.timeline({
   scrollTrigger: {
     trigger: ".color-change-container",
     start: "top top",
@@ -86,39 +88,57 @@ const timeline3 = gsap.timeline({
   },
 });
 
-const animateImages = (targets, bottomValue) => {
-  return gsap.to(targets, {
-    bottom: bottomValue,
-    duration: 1,
-    ease: "power1.inOut",
-  });
-};
+const group1 = ".img1, .img2, .img3";
+const group2 = ".img4, .img5, .img6";
+const group3 = ".img7, .img8, .img9";
 
-timeline3
-  .to(".first-box", {
-    ease: "power1.inOut",
-    onComplete: () => {
-      animateImages([".img1", ".img2", ".img3"], "-50vh");
-      animateImages([".img4", ".img5", ".img6"], "5%");
-    },
+/* Stage 1 → Stage 2 */
+
+colorTransitionTL
+  .to(group1, {
+    bottom: "-50vh",
+    duration: 1,
   })
-  .to(".sec-box", {
-    clipPath: "circle(100% at 50% 50%)",
-    ease: "power1.inOut",
-    onReverseComplete: () => {
-      animateImages([".img1", ".img2", ".img3"], "5%");
-      animateImages([".img4", ".img5", ".img6"], "-50%");
+
+  .to(
+    group2,
+    {
+      bottom: "7%",
+      duration: 1,
     },
-    onComplete: () => {
-      animateImages([".img4", ".img5", ".img6"], "-50vh");
-      animateImages([".img7", ".img8", ".img9"], "5%");
+    "<",
+  )
+
+  .to(
+    ".sec-box",
+    {
+      clipPath: "circle(100% at 50% 50%)",
+      duration: 1,
     },
+    "<",
+  )
+
+  /* Stage 2 → Stage 3 */
+
+  .to(group2, {
+    bottom: "-50vh",
+    duration: 1,
   })
-  .to(".third-box", {
-    clipPath: "circle(100% at 50% 50%)",
-    ease: "power1.inOut",
-    onReverseComplete: () => {
-      animateImages([".img4", ".img5", ".img6"], "5%");
-      animateImages([".img7", ".img8", ".img9"], "-50%");
+
+  .to(
+    group3,
+    {
+      bottom: "7%",
+      duration: 1,
     },
-  });
+    "<",
+  )
+
+  .to(
+    ".third-box",
+    {
+      clipPath: "circle(100% at 50% 50%)",
+      duration: 1,
+    },
+    "<",
+  );
